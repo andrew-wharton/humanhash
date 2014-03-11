@@ -59,13 +59,13 @@ class HumanHasher {
 
         // loop through characters, grabbing two at a time and turning them into
         // a single hex value
-        List bytes = digest.toList().collate(2).collect {
+        List bytes = digest.toList().collate(2).collect { List<Integer> it ->
             Integer.parseInt("${it.first()}${it.last() ?: '0'}", 16)
         }
 
         List compressedBytes = compress(bytes, numWords);
 
-        List outputWords = compressedBytes.collect {
+        List outputWords = compressedBytes.collect { Integer it ->
             this.wordlist[it]
         }
 
@@ -80,7 +80,7 @@ class HumanHasher {
      * @param target
      * @return
      */
-    def compress(List<Integer> bytes, int target) {
+    List<Integer> compress(List<Integer> bytes, int target) {
 
         if(bytes.size() == target) {
             return bytes
@@ -94,18 +94,21 @@ class HumanHasher {
         def bytesLength = bytes.size()
         int segmentSize = Math.floor(bytesLength / target) as int
 
-        // Split `bytes` into `target` segments.
-        // XOR is used for compression.
-        // Left-over bytes are caught in the last segment.
-        List<List> segments = bytes.collate(segmentSize)
-        while(segments.size() > target) { //segments.last().size() < segments.first().size()
-            segments.pop().each {
+        List<List<Integer>> segments = bytes.collate(segmentSize)
+
+        /*
+          Take the elements from the last segment and add them into the last full segment
+          eg. [[1,2,3],[4,5,6],[7,8]] -> [[1,2,3],[4,5,6,7,8]]
+         */
+        while(segments.size() > target) {
+            segments.pop().each { Integer it ->
                 segments.last() << it
             }
         }
+
         assert segments.size() == target
+
         List<Integer> compressedSegments = segments.collect { List<Integer> seg ->
-            //seg_num = Math.min(Math.floor(i/seg_size), target-1 );
             // use XOR bitwise operation to reduce the List of Integers to a single Integer
             return seg.inject(0) { Integer acc, Integer val ->
                 acc ^ val
@@ -113,6 +116,7 @@ class HumanHasher {
         }
 
         assert(compressedSegments.size() == target)
+
         return compressedSegments
     }
 
