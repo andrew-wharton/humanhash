@@ -1,12 +1,5 @@
 package com.whartonlabs.humanhash
 
-/**
- * Created with IntelliJ IDEA.
- * User: andrewwharton
- * Date: 11/03/2014
- * Time: 9:57 PM
- * To change this template use File | Settings | File Templates.
- */
 class HumanHasherSpec extends spock.lang.Specification {
 
     def "Test the compression function"() {
@@ -26,9 +19,6 @@ class HumanHasherSpec extends spock.lang.Specification {
         given:
         def humanhasher = new HumanHasher()
         def digest = "7528880a986c40e78c38115e640da2a1"
-
-        println humanhasher.humanize(digest)
-        println humanhasher.humanize(digest, 6)
 
         expect:
         humanhasher.humanize(digest) == "three-georgia-xray-jig"

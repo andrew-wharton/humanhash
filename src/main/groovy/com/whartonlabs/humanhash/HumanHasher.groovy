@@ -1,13 +1,5 @@
 package com.whartonlabs.humanhash
 
-/**
- * Created with IntelliJ IDEA.
- * User: andrewwharton
- * Date: 11/03/2014
- * Time: 9:55 PM
- * To change this template use File | Settings | File Templates.
- */
-
 class HumanHasher {
 
     private static final List<String> DEFAULT_WORD_LIST = [
