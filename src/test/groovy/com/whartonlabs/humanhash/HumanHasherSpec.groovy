@@ -18,7 +18,7 @@ class HumanHasherSpec extends spock.lang.Specification {
 
     }
 
-    def "Test the humanize function"() {
+    def "Test the basic, single argument humanize function"() {
 
         given:
         def hasher = new HumanHasher()
@@ -41,12 +41,14 @@ class HumanHasherSpec extends spock.lang.Specification {
     }
 
     def "Test the custom length and custom separator humanize function"() {
+
         given:
         def hasher = new HumanHasher()
         def digest = "7528880a986c40e78c38115e640da2a1"
 
         expect:
         hasher.humanize(digest, 6, "_") == "high_mango_white_oregon_purple_charlie"
+
     }
 
     def "Test the custom word list constructor"() {
@@ -62,7 +64,6 @@ class HumanHasherSpec extends spock.lang.Specification {
 
         then: "the human hash to contain word from the custom list"
         hasher.humanize(digest) == "alfa-alfa-alfa-alfa"
-
 
     }
 
