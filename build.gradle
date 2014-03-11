@@ -1,6 +1,8 @@
 apply plugin: 'groovy'
+apply plugin: 'maven'
 
-version = '1.0'
+version = '0.1'
+project.group = "com.whartonlabs"
 
 repositories {
     mavenCentral()
