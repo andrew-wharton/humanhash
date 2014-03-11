@@ -2,20 +2,44 @@ package com.whartonlabs.humanhash
 
 class HumanHasherSpec extends spock.lang.Specification {
 
-    def "Compression function work compress or expand byte array as specified"() {
+    def "Test for null arguments"() {
 
-        expect: "Same number of bytes does not modify array"
-        new HumanHasher().compress([93, 130, 244, 167, 180, 79], 6) == [93, 130, 244, 167, 180, 79]
+        given:
+        def hasher = new HumanHasher()
 
-        and: "One extra byte reduces correctly"
-        new HumanHasher().compress([93, 130, 244, 167, 180, 79, 105], 6) == [93, 130, 244, 167, 180, 38]
+        when:
+        hasher.humanize(null)
 
-        and: "More than one extra bytes reduces correctly"
-        new HumanHasher().compress([93, 130, 244, 167, 180, 79, 105, 3], 6) == [93, 130, 244, 167, 180, 37]
+        then:
+        def e = thrown(IllegalArgumentException)
+        e.message == "Digest can not be null"
 
-        and: "Less number of bytes are padded with 0 bytes"
-        new HumanHasher().compress([93, 130, 244, 167, 180, 79], 9) == [93, 130, 244, 167, 180, 79, 0, 0, 0]
+    }
 
+    def "Test for empty string arguments"() {
+
+        given:
+        def hasher = new HumanHasher()
+
+        when:
+        hasher.humanize("")
+
+        then:
+        def e = thrown(IllegalArgumentException)
+        e.message == "Digest must be at least one character"
+
+    }
+
+    def "Test for illegal charatcers (non-hex)"() {
+
+        given:
+        def hasher = new HumanHasher()
+        when:
+        hasher.humanize("jkhlkk56657dg")
+
+        then:
+        def e = thrown(IllegalArgumentException)
+        e.message == "Digest must be hexadecimal characters only."
     }
 
     def "Test the basic, single argument humanize function"() {
@@ -64,6 +88,22 @@ class HumanHasherSpec extends spock.lang.Specification {
 
         then: "the human hash to contain word from the custom list"
         hasher.humanize(digest) == "alfa-alfa-alfa-alfa"
+
+    }
+
+    def "Test compression function compresses or expands byte array to target size"() {
+
+        expect: "Same number of bytes does not modify array"
+        new HumanHasher().compress([93, 130, 244, 167, 180, 79], 6) == [93, 130, 244, 167, 180, 79]
+
+        and: "One extra byte reduces correctly"
+        new HumanHasher().compress([93, 130, 244, 167, 180, 79, 105], 6) == [93, 130, 244, 167, 180, 38]
+
+        and: "More than one extra bytes reduces correctly"
+        new HumanHasher().compress([93, 130, 244, 167, 180, 79, 105, 3], 6) == [93, 130, 244, 167, 180, 37]
+
+        and: "Less number of bytes are padded with 0 bytes"
+        new HumanHasher().compress([93, 130, 244, 167, 180, 79], 9) == [93, 130, 244, 167, 180, 79, 0, 0, 0]
 
     }
 

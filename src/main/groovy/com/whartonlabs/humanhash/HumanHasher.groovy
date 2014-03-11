@@ -51,10 +51,18 @@ class HumanHasher {
         wordlist = wordList?.size() == 256 ? wordList : DEFAULT_WORD_LIST
     }
 
-    String humanize(String digest, int numWords = 4, String separator = "-") {
+    String humanize(String digest, int numWords = 4, String separator = "-") throws IllegalArgumentException {
+
+        if(digest == null) {
+            throw new IllegalArgumentException("Digest can not be null")
+        }
+
+        if(digest.size() == 0) {
+            throw new IllegalArgumentException("Digest must be at least one character")
+        }
 
         if(!digest.matches(/^[a-fA-F0-9]+$/)){
-            throw new Error("'digest' must be hexadecimal characters only.");
+            throw new IllegalArgumentException("Digest must be hexadecimal characters only.")
         }
 
         // loop through characters, grabbing two at a time and turning them into
