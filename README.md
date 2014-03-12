@@ -12,13 +12,11 @@ String digest = "7528880a986c40e78c38115e640da2a1"
 // pass in a hash that contains only hexidecimal characters (0-9 and a-f), and get back 4 pseudorandom words from the wordlist
 assert new HumanHasher().humanize(digest) == "three-georgia-xray-jig"
 
-// or if you want a different number of words, give hte number as a second argument
+// or if you want a different number of words, give the number as a second argument
 assert new HumanHasher().humanize(digest, 6) == "high-mango-white-oregon-purple-charlie"
 
 // You can also pass in your own custom word list to the constructor, useful for improving recognition for usage with languages other than english.
-
 def customWordList = (0..255).collect { "alfa" } // not a useful wordlist, but demonstrates the point...
-
 assert new HumanHasher(customWordList).humanize(digest) == "alfa-alfa-alfa-alfa"
 ```
 That's really all there is to it!
