@@ -47,4 +47,6 @@ Your Gradle dependency would be
 
     compile 'com.whartonlabs:humanhash:0.2-SNAPSHOT'
 
+## License
 
+Licensed under the terms of the [Unlicense](http://unlicense.org/).
