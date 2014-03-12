@@ -48,6 +48,9 @@ class HumanHasher {
     }
 
     HumanHasher(List<String> wordList) {
+        if(wordList?.size() != 256) {
+            throw new IllegalArgumentException("You must specify a wordlist that contains 256 words. You wordlist contains ${wordList.size()} word${wordList.size() == 1 ? '' : 's'}.")
+        }
         wordlist = wordList?.size() == 256 ? wordList : DEFAULT_WORD_LIST
     }
 
@@ -74,7 +77,7 @@ class HumanHasher {
         List compressedBytes = compress(bytes, numWords);
 
         List outputWords = compressedBytes.collect { Integer it ->
-            this.wordlist[it]
+            wordlist[it]
         }
 
         return outputWords.join(separator)
@@ -88,7 +91,7 @@ class HumanHasher {
      * @param target
      * @return
      */
-    List<Integer> compress(List<Integer> bytes, int target) {
+    static List<Integer> compress(List<Integer> bytes, int target) {
 
         if(bytes.size() == target) {
             return bytes

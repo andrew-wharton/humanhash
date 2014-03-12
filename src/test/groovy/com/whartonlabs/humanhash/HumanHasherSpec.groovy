@@ -91,6 +91,22 @@ class HumanHasherSpec extends spock.lang.Specification {
 
     }
 
+    def "Don't silently use default word list if givend word list does not contain exactly 256 words"() {
+        when:
+        new HumanHasher(["word"])
+
+        then:
+        def e = thrown(IllegalArgumentException)
+        e.message == "You must specify a wordlist that contains 256 words. You wordlist contains 1 word."
+
+        when:
+        new HumanHasher(["word","two"])
+
+        then:
+        def ex = thrown(IllegalArgumentException)
+        ex.message == "You must specify a wordlist that contains 256 words. You wordlist contains 2 words."
+    }
+
     def "Test compression function compresses or expands byte array to target size"() {
 
         expect: "Same number of bytes does not modify array"
