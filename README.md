@@ -28,5 +28,7 @@ That's really all there is to it!
 
 Comes with Gradle wrapper, so nothing to install. Just navigate to the repository's root directory (where the build.gradle file is) and run
 
-    ./gradle test
+    ./gradlew test
+
+## Maven
 
