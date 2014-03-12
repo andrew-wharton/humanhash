@@ -34,10 +34,6 @@ Comes with Gradle wrapper, so nothing to install. Just navigate to the repositor
 
 Currently available from the OSS Sonatype repository at https://oss.sonatype.org/content/repositories/snapshots
 
-groupId: com.whartonlabs
-artifactId: humanhash
-version: 0.2-SNAPSHOT
-
 Your Gradle dependency would be
 
     compile 'com.whartonlabs:humanhash:0.2-SNAPSHOT'
